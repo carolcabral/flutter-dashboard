@@ -1,6 +1,6 @@
-import 'package:dashboard/controllers/MenuController.dart';
-import 'package:dashboard/responsive.dart';
-import 'package:dashboard/screens/dashboard/dashboard_screen.dart';
+import 'package:app/controllers/MenuController.dart';
+import 'package:app/responsive.dart';
+import 'package:app/screens/dashboard/dashboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

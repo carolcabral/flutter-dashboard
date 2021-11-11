@@ -1,6 +1,5 @@
-import 'package:dashboard/constants.dart';
-import 'package:dashboard/controllers/MenuController.dart';
-import 'package:dashboard/screens/main_screen.dart';
+import 'controllers/MenuController.dart';
+import 'screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
