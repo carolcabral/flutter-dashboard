@@ -1,3 +1,5 @@
+import 'package:app/screens/mqtt_screen.dart';
+
 import 'controllers/MenuController.dart';
 import 'screens/main_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,14 +25,12 @@ class MyApp extends StatelessWidget {
             .apply(bodyColor: Colors.white),
         canvasColor: secondaryColor,
       ),
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (context) => MenuController(),
+      home: MultiProvider(providers: [
+        ChangeNotifierProvider(
+          create: (context) => MenuController(),
+        ),
+      ], child: const MQTTScreen() //MainScreen(),
           ),
-        ],
-        child: const MainScreen(),
-      ),
     );
   }
 }
