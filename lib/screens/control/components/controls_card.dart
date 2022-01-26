@@ -1,5 +1,6 @@
 import 'package:app/constants.dart';
-import 'package:app/controllers/MQTTController.dart';
+import 'package:app/controllers/mqtt_controller.dart';
+import 'package:app/screens/control/components/mode_card.dart';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,9 @@ class _ControlsCardState extends State<ControlsCard> {
   Widget build(BuildContext context) {
     _mqttController = Provider.of<MQTTController>(context);
 
-    return controlButtons();
+    return _mqttController.connectionStatus == MqttConnectionState.connected
+        ? controlButtons()
+        : Container();
   }
 
   Widget controlButtons() {
@@ -38,23 +41,28 @@ class _ControlsCardState extends State<ControlsCard> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          IconButton(
-            onPressed: () => _mqttController.sendCommand("left"),
-            icon: const Icon(Icons.arrow_left_rounded),
-            iconSize: 100,
-          ),
-          IconButton(
-            onPressed: () => _mqttController.sendCommand("idle"),
-            icon: const Icon(Icons.stop_circle_rounded),
-            iconSize: 50,
-          ),
-          IconButton(
-            onPressed: () => _mqttController.sendCommand("right"),
-            icon: const Icon(Icons.arrow_right_rounded),
-            iconSize: 100,
-          )
+          controlButton("left", const Icon(Icons.arrow_left_rounded)),
+          controlButton("idle", const Icon(Icons.stop_circle_rounded)),
+          controlButton("right", const Icon(Icons.arrow_right_rounded))
         ],
       ),
+    );
+  }
+
+  void send_command(String cmd) {
+    String _topic = "command/robot";
+    int _id = 1;
+
+    _mqttController.sendCommand(_topic, _id, cmd);
+  }
+
+  Widget controlButton(String cmd, Icon icon) {
+    return IconButton(
+      onPressed:
+          _mqttController.mode == "manual" ? () => send_command(cmd) : null,
+      icon: icon,
+      iconSize: cmd == "idle" ? 50 : 100,
+      disabledColor: Colors.grey.shade400.withOpacity(0.3),
     );
   }
 }

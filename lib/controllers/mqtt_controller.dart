@@ -8,15 +8,30 @@ class MQTTController extends ChangeNotifier {
   //String password = 'password';
 
   mqtt.MqttClient? _client;
-  mqtt.MqttConnectionState? _connectionStatus;
+  mqtt.MqttConnectionState? get connectionStatus =>
+      _client?.connectionStatus!.state;
 
   String _host = '';
+  String? get host => _host;
 
-  int _port = 1883;
+  late String _mode = 'automatic';
+  String get mode => _mode;
+  set mode(String value) {
+    _mode = value;
+    updateState();
+  }
+
+  late String _cleaner_state = 'on'; //cleanerState
+  String get cleaner_state => _cleaner_state;
+  set cleaner_state(String stat) {
+    _cleaner_state = stat;
+    updateState();
+  }
+
+
+
+  final int _port = 1883;
   String _identifier = 'userId';
-
-  String _topic = 'cmd/1';
-  String _command = "idle";
 
   void initializeMQTTClient(
       {required String host, required String identifier}) {
@@ -38,31 +53,30 @@ class MQTTController extends ChangeNotifier {
     _client!.connectionMessage = connMsg;
   }
 
-  String? get host => _host;
-  mqtt.MqttConnectionState? get connectionStatus => _connectionStatus;
-
   void connect() async {
     try {
       await _client!.connect('username', 'password');
-
-      print("Connect.........!");
     } catch (e) {
       print(e);
-      _disconnect();
+      disconnect();
     }
   }
 
-  void _disconnect() {
+  void disconnect() {
     print('[MQTT client] _disconnect()');
     _client!.disconnect();
   }
 
   void _onConnected() {
+    print("Connected.........!");
+    print("State on connected is:");
+    print(connectionStatus);
+
     updateState();
   }
 
   void _onDisconnected() {
-    _connectionStatus = _client?.connectionStatus!.state;
+    //_state = _client?.connectionStatus!.state;
     _client = null;
     updateState();
   }
@@ -71,15 +85,17 @@ class MQTTController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void sendCommand(String cmd) {
+  void sendCommand(String topic, int id, String cmd) {
+    String msg = '{ "id" : "${id}", "msg": "${cmd}"}';
+
     final builder = MqttClientPayloadBuilder();
-    builder.addString(cmd);
+    builder.addString(msg);
 
     /// Check if we are connected
     if (_client?.connectionStatus!.state !=
         mqtt.MqttConnectionState.connected) {
       connect();
     }
-    _client?.publishMessage(_topic, mqtt.MqttQos.atLeastOnce, builder.payload!);
+    _client?.publishMessage(topic, mqtt.MqttQos.atLeastOnce, builder.payload!);
   }
 }

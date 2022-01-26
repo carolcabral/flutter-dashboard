@@ -1,6 +1,8 @@
+import 'package:app/controllers/mqtt_controller.dart';
 import 'package:app/screens/mqtt_screen.dart';
 
 import 'controllers/MenuController.dart';
+import 'screens/control/control_screen.dart';
 import 'screens/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -27,9 +29,9 @@ class MyApp extends StatelessWidget {
       ),
       home: MultiProvider(providers: [
         ChangeNotifierProvider(
-          create: (context) => MenuController(),
+          create: (context) => MQTTController(),//MenuController(),
         ),
-      ], child: const MQTTScreen() //MainScreen(),
+      ], child: const ControlScreen() //MainScreen(),
           ),
     );
   }

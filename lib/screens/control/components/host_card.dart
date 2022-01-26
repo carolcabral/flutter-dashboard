@@ -1,4 +1,4 @@
-import 'package:app/controllers/MQTTController.dart';
+import 'package:app/controllers/mqtt_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mqtt_client/mqtt_client.dart';
@@ -47,11 +47,15 @@ class _HostCardState extends State<HostCard> {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  hintText: "MQTT host"),
+                  hintText: "10.0.2.2"),
             ),
           ),
           _mqttController.connectionStatus == MqttConnectionState.connected
-              ? IconButton(onPressed: () {}, icon: const Icon(Icons.close))
+              ? IconButton(
+                  onPressed: () {
+                    _mqttController.disconnect();
+                  },
+                  icon: const Icon(Icons.close))
               : IconButton(
                   onPressed: _configureAndConnect,
                   icon: const Icon(Icons.play_arrow)),
