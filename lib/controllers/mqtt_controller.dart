@@ -85,11 +85,10 @@ class MQTTController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void sendCommand(String topic, int id, String cmd) {
-    String msg = '{ "id" : "${id}", "msg": "${cmd}"}';
+  void sendCommand(String topic, String cmd) {
 
     final builder = MqttClientPayloadBuilder();
-    builder.addString(msg);
+    builder.addString(cmd);
 
     /// Check if we are connected
     if (_client?.connectionStatus!.state !=

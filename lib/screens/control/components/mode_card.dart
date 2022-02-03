@@ -27,9 +27,7 @@ class _ModeCardState extends State<ModeCard> {
   }
 
   Container ToggleMode() {
-    String _topic = "command/mode";
-    int _id = 1;
-
+    String id = '1';
     return Container(
       padding: const EdgeInsets.symmetric(vertical: defaultPadding),
       alignment: Alignment.center,
@@ -58,7 +56,8 @@ class _ModeCardState extends State<ModeCard> {
             for (int index = 0; index < isSelected.length; index++) {
               if (index == newIndex) {
                 isSelected[index] = true;
-                _mqttController.sendCommand(_topic, _id, modes[newIndex]);
+                _mqttController.sendCommand(
+                    "command/mode/$id", modes[newIndex]);
                 _mqttController.mode = modes[newIndex];
               } else {
                 isSelected[index] = false;

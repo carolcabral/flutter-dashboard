@@ -9,6 +9,8 @@ import 'package:app/screens/control/components/mode_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'components/velocity_card.dart';
+
 class ControlScreen extends StatelessWidget {
   const ControlScreen({Key? key}) : super(key: key);
 
@@ -31,6 +33,7 @@ class ControlScreen extends StatelessWidget {
                 const HostCard(),
                 ModeCard(),
                 CleanerCard(),
+                VelocityCard(), 
                 const ControlsCard(),
               ],
             ),

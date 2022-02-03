@@ -50,10 +50,8 @@ class _ControlsCardState extends State<ControlsCard> {
   }
 
   void send_command(String cmd) {
-    String _topic = "command/robot";
-    int _id = 1;
-
-    _mqttController.sendCommand(_topic, _id, cmd);
+    String id = '1';
+    _mqttController.sendCommand("command/robot/$id", cmd);
   }
 
   Widget controlButton(String cmd, Icon icon) {

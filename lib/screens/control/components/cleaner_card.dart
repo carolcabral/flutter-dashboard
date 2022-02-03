@@ -29,8 +29,10 @@ class _CleanerCardState extends State<CleanerCard> {
         icon: const Icon(Icons.cleaning_services_rounded),
         label: Text("Cleaner ${_mqttController.cleaner_state}"),
         style: ElevatedButton.styleFrom(
-          primary: _mqttController.cleaner_state == "on" ? primaryColor : Colors.grey.shade400.withOpacity(0.3),
-        ),  
+          primary: _mqttController.cleaner_state == "on"
+              ? primaryColor
+              : Colors.grey.shade400.withOpacity(0.3),
+        ),
         onPressed: () {
           toggleCleaner();
         },
@@ -39,9 +41,10 @@ class _CleanerCardState extends State<CleanerCard> {
   }
 
   void toggleCleaner() {
+    String id = '1';
     String cmd = _mqttController.cleaner_state == "on" ? "off" : "on";
 
-    _mqttController.sendCommand("command/cleaner", 1, cmd);
+    _mqttController.sendCommand("command/cleaner/$id", cmd);
     _mqttController.cleaner_state = cmd;
   }
 }
